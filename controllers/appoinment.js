@@ -56,7 +56,6 @@ router.post('/appoinment', (req, res) => {
                     if (resp.length > 0 && payload.from === resp[0].to) { allow = true };
                     if (respTo.length > 0 && payload.from === respTo[0].to) { allow = true };
                 }
-                console.log('allow', allow);
                 if (allow) {
                     req.db.appoinments.updateOne(payload, { $set: payload }, { upsert: true }, (error, resp) => {
                         if (error) {
