@@ -18,19 +18,19 @@ const kgGroup = {};
 let apiVersion = '';
 
 /** To Support Cross Platform */
-app.use('', (req, res, next)=> {
+app.use('', (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
 app.use(bodyParser.json());       /**  to support JSON-encoded bodies */
-app.use(bodyParser.urlencoded({extended: true})); /** to support URL-encoded bodies */ 
-  
+app.use(bodyParser.urlencoded({ extended: true })); /** to support URL-encoded bodies */
+
 /** Database Connection */
-MongoClient.connect(DB_config.MONGODB_URI,{ useUnifiedTopology: true } , (err, dbConnection)=> {
-    if(err) {
+MongoClient.connect(DB_config.MONGODB_URI, { useUnifiedTopology: true }, (err, dbConnection) => {
+    if (err) {
         console.log(`KG-Group Server not connected, Error: ${err.message}, Timestamp: ${new Date()}`);
     } else {
         kgGroup.Connection = dbConnection;
@@ -42,11 +42,11 @@ MongoClient.connect(DB_config.MONGODB_URI,{ useUnifiedTopology: true } , (err, d
         kgGroup.patient = dbConn.collection('patient');
 
         console.log(`KG-Group Server Connected, Timestamp: ${new Date()}`);
-    } 
+    }
 });
 
 /**  Expose Global Variables Through The Request Object */
-app.use((req, res, next)=> {
+app.use((req, res, next) => {
     req.gv = gv;
     apiVersion = req.gv.apiVersion;
     req.db = kgGroup;
@@ -61,7 +61,7 @@ app.use(require('./util/trimmer'));
 app.use('/admin', require('./controllers/appoinment'));
 app.use('/patient', require('./controllers/patient'));
 
-app.all('*', function(req, res){
+app.all('*', function (req, res) {
     let err = new Error(routerMsg.f.pageNotFound);
     err.status = routerMsg.code.pageNotFound;
     throw err;
@@ -74,6 +74,6 @@ app.use(errorHandler);
 /** Set port **/
 app.set('port', PORT_config.port.address);
 
-const server = app.listen(app.get('port'), ()=> console.log('Express Server Listening On Port ' + server.address().port));
+const server = app.listen(app.get('port'), () => console.log('Express Server Listening On Port ' + server.address().port));
 
 module.exports = app;

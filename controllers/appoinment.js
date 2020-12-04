@@ -53,8 +53,8 @@ router.post('/appoinment', (req, res) => {
                 if ((resp.length === 0 && respTo.length === 0)) {
                     allow = true;
                 } else {
-                    if(resp.length > 0 && payload.from === resp[0].to) { allow = true };
-                    if(respTo.length > 0 && payload.from === respTo[0].to) { allow = true};
+                    if (resp.length > 0 && payload.from === resp[0].to) { allow = true };
+                    if (respTo.length > 0 && payload.from === respTo[0].to) { allow = true };
                 }
                 console.log('allow', allow);
                 if (allow) {
@@ -72,7 +72,6 @@ router.post('/appoinment', (req, res) => {
                             } else {
                                 res.json(response.failure([], 'duplicate time not allowed'));
                             }
-
                         }
                     });
                 } else {
